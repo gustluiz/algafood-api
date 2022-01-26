@@ -19,12 +19,12 @@ public class InclusaoCozinhaMain {
 
 		Cozinha cozinha1 = new Cozinha( );
 		cozinha1.setNome("Italiana");
-		cozinha1 = cozinhas.adicionar( cozinha1 );
+		cozinha1 = cozinhas.salvar( cozinha1 );
 		System.out.println( cozinha1.getId() + "|" + cozinha1.getNome() );
 		
 		Cozinha cozinha2 = new Cozinha( );
 		cozinha2.setNome("Japonesa");		
-		cozinha2 = cozinhas.adicionar( cozinha2 );		
+		cozinha2 = cozinhas.salvar( cozinha2 );		
 		System.out.println( cozinha2.getId() + "|" + cozinha2.getNome() );
 	}
 	

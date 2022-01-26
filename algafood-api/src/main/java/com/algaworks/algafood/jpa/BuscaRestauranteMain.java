@@ -16,7 +16,7 @@ public class BuscaRestauranteMain {
 				.web(WebApplicationType.NONE).run(args);
 		
 		RestauranteRepository restaurantes = applicationContext.getBean(RestauranteRepository.class);
-		Restaurante restaurante = restaurantes.porId(2L);
+		Restaurante restaurante = restaurantes.bucar(2L);
 		
 		System.out.printf("%s\n", restaurante );
 		

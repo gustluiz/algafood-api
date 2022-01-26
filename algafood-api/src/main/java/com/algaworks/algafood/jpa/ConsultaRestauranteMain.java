@@ -20,7 +20,7 @@ public class ConsultaRestauranteMain {
 		
 		RestauranteRepository restaurantes = applicationContext.getBean(RestauranteRepository.class);
 		
-		List<Restaurante> todosRestaurantes = restaurantes.todos();
+		List<Restaurante> todosRestaurantes = restaurantes.listar();
 		
 		todosRestaurantes.stream().forEach( restaurante-> System.out.println(restaurante) );
 		

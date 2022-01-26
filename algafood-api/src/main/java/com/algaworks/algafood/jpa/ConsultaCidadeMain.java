@@ -20,7 +20,7 @@ public class ConsultaCidadeMain {
 		
 		CidadeRepository cidades = applicationContext.getBean(CidadeRepository.class);
 		
-		List<Cidade> cidadesTodas = cidades.todas();
+		List<Cidade> cidadesTodas = cidades.listar();
 		
 		cidadesTodas.stream().forEach( cidade-> System.out.println( cidade ) );
 		

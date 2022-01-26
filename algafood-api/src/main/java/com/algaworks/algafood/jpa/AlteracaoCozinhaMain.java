@@ -22,11 +22,11 @@ public class AlteracaoCozinhaMain {
 		Cozinha cozinha = new Cozinha( );
 		
 		
-		cozinha = cozinhas.porId( 1L );
+		cozinha = cozinhas.buscar( 1L );
 		cozinha.setId( 2L );
 		cozinha.setNome( "Brasileira" );
 				
-		cozinhas.adicionar(cozinha);
+		cozinhas.salvar(cozinha);
 		
 		System.out.println( cozinha.getId() + "|" + cozinha.getNome() );
 

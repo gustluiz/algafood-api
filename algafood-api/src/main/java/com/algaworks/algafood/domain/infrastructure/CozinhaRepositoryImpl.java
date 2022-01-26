@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,25 +19,31 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 	private EntityManager manager;
 	
 	@Override
-	public List<Cozinha> todas() {
+	public List<Cozinha> listar() {
 		return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
 	}
 	
 	@Transactional
 	@Override
-	public Cozinha adicionar( Cozinha cozinha ) {
+	public Cozinha salvar( Cozinha cozinha ) {
 		return manager.merge( cozinha );
 	}
 	
 	@Override
-	public Cozinha porId( Long id) {
+	public Cozinha buscar( Long id) {
 		return manager.find(Cozinha.class, id);
 	}
 	
 	@Transactional
 	@Override
-	public void remover( Cozinha cozinha) {
-		cozinha = porId( cozinha.getId() );
+	public void remover( Long id ) {
+		
+		Cozinha cozinha = buscar( id );
+		
+		if( cozinha == null ) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		manager.remove( cozinha );
 	}
 

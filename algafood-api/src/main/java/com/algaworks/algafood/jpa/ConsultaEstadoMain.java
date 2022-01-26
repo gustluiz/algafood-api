@@ -20,9 +20,9 @@ public class ConsultaEstadoMain {
 		
 		EstadoRepository estados = applicationContext.getBean(EstadoRepository.class);
 		
-		List<Estado> estadosTodas = estados.todos();
+		List<Estado> estadosTodas = estados.listar();
 		
-		estadosTodas.stream().forEach( estado-> System.out.println( estado ) );
+		estadosTodas.stream().forEach( estado -> System.out.println( estado ) );
 		
 	}
 	
