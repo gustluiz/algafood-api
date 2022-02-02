@@ -5,9 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
@@ -23,13 +25,13 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 	}
 
 	@Override
-	public Restaurante bucar(Long id) {
+	public Restaurante buscar(Long id) {
 		return manager.find(Restaurante.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Restaurante adicionar(Restaurante restaurante) {
+	public Restaurante salvar(Restaurante restaurante) {
 
 		return manager.merge( restaurante );
 		
@@ -37,8 +39,15 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 
 	@Override
 	@Transactional
-	public void remove(Restaurante restaurante) {
-		restaurante = bucar( restaurante.getId() );
+	public void remover(Long restauranteId) {
+
+		
+		Restaurante restaurante = buscar( restauranteId );
+		
+		if( restaurante == null ) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		manager.remove(restaurante);
 
 	}

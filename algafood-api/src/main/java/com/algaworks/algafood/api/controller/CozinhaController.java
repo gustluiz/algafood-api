@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.model.CozinhaXmlWrapper;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 
@@ -40,10 +38,10 @@ public class CozinhaController {
 		return cozinhaRepository.listar();
 	}
 
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public CozinhaXmlWrapper listarXML() {
-		return new CozinhaXmlWrapper(cozinhaRepository.listar());
-	}
+//	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+//	public CozinhaXmlWrapper listarXML() {
+//		return new CozinhaXmlWrapper(cozinhaRepository.listar());
+//	}
 
 	@GetMapping(path = "/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
@@ -62,10 +60,6 @@ public class CozinhaController {
 		return ResponseEntity.notFound().build();
 	}
 
-	@GetMapping(path = "/{cozinhaId}", produces = MediaType.APPLICATION_XML_VALUE)
-	public Cozinha buscarXml(@PathVariable Long cozinhaId) {
-		return cozinhaRepository.buscar(cozinhaId);
-	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -74,7 +68,7 @@ public class CozinhaController {
 	}
 
 	@PutMapping(path = "/{cozinhaId}")
-	public ResponseEntity<Cozinha> adicionar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
+	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
 
 		Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
 
@@ -83,7 +77,7 @@ public class CozinhaController {
 			// cozinhaAtual.setNome( cozinha.getNome() );
 			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 
-			cozinhaRepository.salvar(cozinhaAtual);
+			cadastroCozinhaService.salvar(cozinhaAtual);
 
 			return ResponseEntity.ok(cozinhaAtual);
 		}

@@ -27,7 +27,7 @@ public class InclusaoRestauranteMain {
 		restaurante1.setNome("Hambugao Espacial");
 		restaurante1.setTaxaFrete( new BigDecimal(12.0) );
 		restaurante1.setCozinha( cozinhas.buscar(3L) );
-		restaurante1 = restaurantes.adicionar( restaurante1 );
+		restaurante1 = restaurantes.salvar( restaurante1 );
 		System.out.printf( "%s - %9.2f", restaurante1.getNome(), restaurante1.getTaxaFrete() );
 		
 		Restaurante restaurante2 = new Restaurante();	
@@ -35,7 +35,7 @@ public class InclusaoRestauranteMain {
 		restaurante2.setNome("Dogao podrao");
 		restaurante2.setTaxaFrete( new BigDecimal(0.0) );
 		restaurante2.setCozinha( cozinhas.buscar(1L) );
-		restaurante2 = restaurantes.adicionar( restaurante2 );
+		restaurante2 = restaurantes.salvar( restaurante2 );
 		System.out.printf( "%s - %9.2f", restaurante2.getNome(), restaurante2.getTaxaFrete() );
 		
 		restaurantes.listar().stream().forEach( restaurante -> System.out.println(restaurante ) );
