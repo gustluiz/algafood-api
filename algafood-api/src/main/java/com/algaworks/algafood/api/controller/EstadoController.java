@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +42,19 @@ public class EstadoController {
 
 	@GetMapping
 	public List<Estado> listar() {
-		return estadoRepository.listar();
+		return estadoRepository.findAll();
 	}
 
 	@GetMapping(path = "/{estadoId}")
 	public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
 
-		Estado estado = estadoRepository.buscar(estadoId);
+		Optional<Estado> optEstado = estadoRepository.findById(estadoId);
 
-		if (estado == null) {
+		if (optEstado.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(estado);
+		return ResponseEntity.ok( optEstado.get() );
 
 	}
 
@@ -66,10 +67,12 @@ public class EstadoController {
 	@PutMapping(path = "/{estadoId}")
 	public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
 
-		Estado estadoAtual = estadoRepository.buscar(estadoId);
+		Optional<Estado> optEstadoAtual = estadoRepository.findById(estadoId);
 
-		if (estadoAtual != null) {
+		if ( optEstadoAtual.isPresent() ) {
 
+			Estado estadoAtual = optEstadoAtual.get();
+			
 			// Copy all attributes from estado to estadoAtual except the "id"
 			BeanUtils.copyProperties(estado, estadoAtual, "id");
 
@@ -101,12 +104,14 @@ public class EstadoController {
 	@PatchMapping(path = "/{estadoId}")
 	public ResponseEntity<Estado> atualizarParcial(@PathVariable Long estadoId, @RequestBody Map<String, Object> dados) {
 
-		Estado estadoAtual = estadoRepository.buscar(estadoId);
+		Optional<Estado> optEstadoAtual = estadoRepository.findById(estadoId);
 
-		if (estadoAtual == null) {
+		if ( optEstadoAtual.isEmpty() ) {
 			return ResponseEntity.notFound().build();
 		}
 
+		Estado estadoAtual = optEstadoAtual.get();
+		
 		merge(dados, estadoAtual);
 
 		atualizar(estadoId, estadoAtual);
